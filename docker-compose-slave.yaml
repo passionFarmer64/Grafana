@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  promtail:
+    image: grafana/promtail:2.6.0
+    volumes:
+      - /var/log:/var/log
+      - ./promtail.yml:/etc/promtail/promtail.yml
+    ports:
+      - "3101:9080"
+    command: -config.file=/etc/promtail/promtail.yml
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
